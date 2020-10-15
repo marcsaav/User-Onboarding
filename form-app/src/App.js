@@ -67,6 +67,17 @@ function App() {
   }
 
   useEffect(() => {
+    Axios
+      .get(`https://reqres.in/api/users`)
+      .then((res) => {
+        setUsers(res.data.data)
+      })
+      .catch((err) => {
+        alert(`Got an error there bud.`)
+      })
+  }, [])
+
+  useEffect(() => {
     schema.isValid(formValues)
       .then((valid) => {
         setDisabled(!valid)
@@ -85,6 +96,14 @@ function App() {
       disabled={disabled}
       errors={formErrors}
       />
+      {users.map((user) => {
+        return(
+          <div>
+            <h1>{user.name}</h1>
+            <p>Contact: {user.email}</p>
+          </div>
+        )
+      })}
     </>
   );
 }
